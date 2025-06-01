@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Financiera Personal - Yuyu y Angie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        header {
+            background-color: #2563eb;
+            color: white;
+            padding: 1rem 0;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: #1d4ed8;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1e40af;
+        }
+        
+        .btn-active {
+            background-color: white;
+            color: #2563eb;
+            font-weight: bold;
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .text-green { color: #059669; }
+        .text-red { color: #dc2626; }
+        .text-blue { color: #2563eb; }
+        
+        .detail {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            color: #374151;
+        }
+        
+        input, select {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.25rem;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge-blue {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+        
+        .badge-purple {
+            background-color: #e9d5ff;
+            color: #7c3aed;
+        }
+        
+        .badge-green {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+        
+        .badge-red {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+        
+        .chart-container {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        canvas {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+        }
+        
+        footer {
+            background-color: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6b7280;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                font-size: 0.875rem;
+            }
+            
+            th, td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>Gestión Financiera: Yuyu y Angie</h1>
+            
+            <div class="btn-group">
+                <button id="btn-ambas" class="btn btn-active">
+                    Ambas personas
+                </button>
+                <button id="btn-yuyu" class="btn btn-primary">
+                    Yuyu
+                </button>
+                <button id="btn-angie" class="btn btn-primary">
+                    Angie
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main content -->
+    <main>
+        <div class="container">
+            <!-- Resumen -->
+            <div class="grid grid-3">
+                <div class="card">
+                    <h3 class="text-blue">Balance <span id="balance-titulo">Total</span></h3>
+                    <p id="balance-total" class="amount text-green">0.00 €</p>
+                    
+                    <div id="balance-detalle" class="detail">
+                        <div class="detail-row">
+                            <span>Yuyu:</span>
+                            <span id="balance-yuyu" class="text-green">0.00 €</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Angie:</span>
+                            <span id="balance-angie" class="text-green">0.00 €</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="text-green">Ingresos</h3>
+                    <p id="ingresos-total" class="amount text-green">0.00 €</p>
+                    
+                    <div id="ingresos-detalle" class="detail">
+                        <div class="detail-row">
+                            <span>Yuyu:</span>
+                            <span id="ingresos-yuyu" class="text-green">0.00 €</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Angie:</span>
+                            <span id="ingresos-angie" class="text-green">0.00 €</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="text-red">Gastos</h3>
+                    <p id="gastos-total" class="amount text-red">0.00 €</p>
+                    
+                    <div id="gastos-detalle" class="detail">
+                        <div class="detail-row">
+                            <span>Yuyu:</span>
+                            <span id="gastos-yuyu" class="text-red">0.00 €</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Angie:</span>
+                            <span id="gastos-angie" class="text-red">0.00 €</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gráfico -->
+            <div class="card">
+                <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">
+                    Gastos vs Ingresos <span id="grafico-titulo"></span>
+                </h2>
+                <div class="chart-container">
+                    <canvas id="chart" width="300" height="250"></canvas>
+                </div>
+            </div>
+            
+            <!-- Botón añadir -->
+            <div style="margin: 2rem 0;">
+                <button id="btn-toggle-form" class="btn btn-primary">
+                    Añadir transacción
+                </button>
+            </div>
+            
+            <!-- Formulario -->
+            <div id="formulario" class="form hidden">
+                <h2 id="form-titulo" style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Nueva transacción</h2>
+                
+                <div class="form-grid">
+                    <!-- Mes -->
+                    <div class="form-group">
+                        <label>Mes</label>
+                        <select id="input-mes">
+                            <option>Enero</option>
+                            <option>Febrero</option>
+                            <option>Marzo</option>
+                            <option>Abril</option>
+                            <option>Mayo</option>
+                            <option>Junio</option>
+                            <option>Julio</option>
+                            <option>Agosto</option>
+                            <option>Septiembre</option>
+                            <option>Octubre</option>
+                            <option>Noviembre</option>
+                            <option>Diciembre</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Concepto -->
+                    <div class="form-group">
+                        <label>Concepto*</label>
+                        <input id="input-concepto" type="text" placeholder="Ej: Supermercado, Nómina...">
+                    </div>
+                    
+                    <!-- Tipo -->
+                    <div class="form-group">
+                        <label>Tipo</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="tipo" value="ingreso" id="tipo-ingreso">
+                                <label for="tipo-ingreso" class="text-green">Ingreso</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="tipo" value="gasto" id="tipo-gasto" checked>
+                                <label for="tipo-gasto" class="text-red">Gasto</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cantidad -->
+                    <div class="form-group">
+                        <label>Cantidad*</label>
+                        <input id="input-cantidad" type="number" step="0.01" min="0">
+                    </div>
+                    
+                    <!-- Persona -->
+                    <div class="form-group">
+                        <label>Persona</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" name="persona" value="Yuyu" id="persona-yuyu" checked>
+                                <label for="persona-yuyu" class="text-blue">Yuyu</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" name="persona" value="Angie" id="persona-angie">
+                                <label for="persona-angie" style="color: #7c3aed;">Angie</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón guardar -->
+                    <div class="form-group">
+                        <button id="btn-guardar" class="btn btn-primary" style="margin-top: 1.5rem;">
+                            Añadir
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tabla de transacciones -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mes</th>
+                        <th>Concepto</th>
+                        <th>Persona</th>
+                        <th>Tipo</th>
+                        <th class="text-right">Cantidad</th>
+                        <th class="text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-body">
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            No hay transacciones para mostrar. ¡Añade una nueva!
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            App de Finanzas Personales - 2025
+        </div>
+    </footer>
+
+    <script>
+        // Variables globales (datos en memoria durante la sesión)
+        let transacciones = [];
+        let personaActiva = '';
+        let editandoId = null;
+
+        // Datos de ejemplo para demostración
+        const datosEjemplo = [
+            { id: 1, mes: 'Enero', concepto: 'Salario', tipo: 'ingreso', cantidad: 2500, persona: 'Yuyu' },
+            { id: 2, mes: 'Enero', concepto: 'Freelance', tipo: 'ingreso', cantidad: 800, persona: 'Angie' },
+            { id: 3, mes: 'Enero', concepto: 'Supermercado', tipo: 'gasto', cantidad: 150, persona: 'Yuyu' },
+            { id: 4, mes: 'Enero', concepto: 'Gasolina', tipo: 'gasto', cantidad: 60, persona: 'Angie' },
+            { id: 5, mes: 'Febrero', concepto: 'Salario', tipo: 'ingreso', cantidad: 2500, persona: 'Yuyu' },
+            { id: 6, mes: 'Febrero', concepto: 'Restaurante', tipo: 'gasto', cantidad: 45, persona: 'Yuyu' }
+        ];
+
+        // Inicializar app
+        window.onload = function() {
+            // Empezar sin datos (comentar la línea de abajo si quieres los datos de ejemplo)
+            // transacciones = [...datosEjemplo];
+            
+            configurarEventos();
+            establecerMesActual();
+            actualizarVista();
+        };
+
+        // Configurar eventos
+        function configurarEventos() {
+            document.getElementById('btn-ambas').onclick = () => cambiarPersona('');
+            document.getElementById('btn-yuyu').onclick = () => cambiarPersona('Yuyu');
+            document.getElementById('btn-angie').onclick = () => cambiarPersona('Angie');
+            document.getElementById('btn-toggle-form').onclick = toggleFormulario;
+            document.getElementById('btn-guardar').onclick = guardarTransaccion;
+        }
+
+        // Establecer mes actual
+        function establecerMesActual() {
+            const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                          'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            const mesActual = new Date().getMonth();
+            document.getElementById('input-mes').value = meses[mesActual];
+        }
+
+        // Cambiar persona activa
+        function cambiarPersona(persona) {
+            personaActiva = persona;
+            
+            // Actualizar botones
+            document.querySelectorAll('.btn-group .btn').forEach(btn => {
+                btn.className = 'btn btn-primary';
+            });
+            
+            if (persona === '') {
+                document.getElementById('btn-ambas').className = 'btn btn-active';
+            } else if (persona === 'Yuyu') {
+                document.getElementById('btn-yuyu').className = 'btn btn-active';
+            } else {
+                document.getElementById('btn-angie').className = 'btn btn-active';
+            }
+            
+            actualizarVista();
+        }
+
+        // Toggle formulario
+        function toggleFormulario() {
+            const form = document.getElementById('formulario');
+            const btn = document.getElementById('btn-toggle-form');
+            
+            if (form.classList.contains('hidden')) {
+                form.classList.remove('hidden');
+                btn.textContent = 'Cerrar';
+            } else {
+                form.classList.add('hidden');
+                btn.textContent = 'Añadir transacción';
+                limpiarFormulario();
+            }
+        }
+
+        // Limpiar formulario
+        function limpiarFormulario() {
+            document.getElementById('input-concepto').value = '';
+            document.getElementById('input-cantidad').value = '';
+            document.getElementById('tipo-gasto').checked = true;
+            document.getElementById('persona-yuyu').checked = true;
+            document.getElementById('form-titulo').textContent = 'Nueva transacción';
+            document.getElementById('btn-guardar').textContent = 'Añadir';
+            editandoId = null;
+            establecerMesActual();
+        }
+
+        // Guardar transacción
+        function guardarTransaccion() {
+            const concepto = document.getElementById('input-concepto').value.trim();
+            const cantidad = parseFloat(document.getElementById('input-cantidad').value);
+            const mes = document.getElementById('input-mes').value;
+            const tipo = document.querySelector('input[name="tipo"]:checked').value;
+            const persona = document.querySelector('input[name="persona"]:checked').value;
+
+            if (!concepto || !cantidad) {
+                alert('Por favor, completa todos los campos obligatorios');
+                return;
+            }
+
+            const transaccion = {
+                id: editandoId || Date.now(),
+                mes,
+                concepto,
+                tipo,
+                cantidad,
+                persona
+            };
+
+            if (editandoId) {
+                const index = transacciones.findIndex(t => t.id === editandoId);
+                transacciones[index] = transaccion;
+            } else {
+                transacciones.push(transaccion);
+            }
+
+            actualizarVista();
+            toggleFormulario();
+        }
+
+        // Editar transacción
+        function editarTransaccion(id) {
+            const transaccion = transacciones.find(t => t.id === id);
+            if (!transaccion) return;
+
+            document.getElementById('input-mes').value = transaccion.mes;
+            document.getElementById('input-concepto').value = transaccion.concepto;
+            document.getElementById('input-cantidad').value = transaccion.cantidad;
+            document.querySelector(`input[name="tipo"][value="${transaccion.tipo}"]`).checked = true;
+            document.querySelector(`input[name="persona"][value="${transaccion.persona}"]`).checked = true;
+            
+            document.getElementById('form-titulo').textContent = 'Editar transacción';
+            document.getElementById('btn-guardar').textContent = 'Guardar cambios';
+            editandoId = id;
+
+            document.getElementById('formulario').classList.remove('hidden');
+            document.getElementById('btn-toggle-form').textContent = 'Cerrar';
+        }
+
+        // Eliminar transacción
+        function eliminarTransaccion(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar esta transacción?')) {
+                transacciones = transacciones.filter(t => t.id !== id);
+                actualizarVista();
+            }
+        }
+
+        // Filtrar transacciones
+        function obtenerTransaccionesFiltradas() {
+            return transacciones.filter(t => !personaActiva || t.persona === personaActiva);
+        }
+
+        // Calcular totales
+        function calcularTotales(transaccionesACalcular) {
+            const ingresos = transaccionesACalcular
+                .filter(t => t.tipo === 'ingreso')
+                .reduce((sum, t) => sum + t.cantidad, 0);
+            
+            const gastos = transaccionesACalcular
+                .filter(t => t.tipo === 'gasto')
+                .reduce((sum, t) => sum + t.cantidad, 0);
+            
+            return {
+                ingresos,
+                gastos,
+                balance: ingresos - gastos
+            };
+        }
+
+        // Dibujar gráfico
+        function dibujarGrafico() {
+            const canvas = document.getElementById('chart');
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 80;
+
+            // Limpiar canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const transaccionesFiltradas = obtenerTransaccionesFiltradas();
+            const totales = calcularTotales(transaccionesFiltradas);
+
+            // Si no hay datos
+            if (totales.ingresos === 0 && totales.gastos === 0) {
+                ctx.font = '16px Arial';
+                ctx.fillStyle = '#666';
+                ctx.textAlign = 'center';
+                ctx.fillText('No hay datos', centerX, centerY);
+                return;
+            }
+
+            const total = totales.ingresos + totales.gastos;
+            const anguloIngresos = (totales.ingresos / total) * 2 * Math.PI;
+
+            // Dibujar sector de ingresos (verde)
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, 0, anguloIngresos);
+            ctx.closePath();
+            ctx.fillStyle = '#059669';
+            ctx.fill();
+
+            // Dibujar sector de gastos (rojo)
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, anguloIngresos, 2 * Math.PI);
+            ctx.closePath();
+            ctx.fillStyle = '#dc2626';
+            ctx.fill();
+
+            // Leyenda
+            ctx.font = '14px Arial';
+            ctx.textAlign = 'left';
+            
+            // Leyenda ingresos
+            ctx.fillStyle = '#059669';
+            ctx.fillRect(centerX - 60, centerY + radius + 20, 15, 15);
+            ctx.fillStyle = '#000';
+            ctx.fillText(`Ingresos: ${totales.ingresos.toFixed(2)}€`, centerX - 40, centerY + radius + 32);
+            
+            // Leyenda gastos
+            ctx.fillStyle = '#dc2626';
+            ctx.fillRect(centerX - 60, centerY + radius + 40, 15, 15);
+            ctx.fillStyle = '#000';
+            ctx.fillText(`Gastos: ${totales.gastos.toFixed(2)}€`, centerX - 40, centerY + radius + 52);
+        }
+
+        // Actualizar vista completa
+        function actualizarVista() {
+            const transaccionesFiltradas = obtenerTransaccionesFiltradas();
+            const totales = calcularTotales(transaccionesFiltradas);
+            const totalesYuyu = calcularTotales(transacciones.filter(t => t.persona === 'Yuyu'));
+            const totalesAngie = calcularTotales(transacciones.filter(t => t.persona === 'Angie'));
+
+            // Actualizar títulos
+            const sufijo = personaActiva ? `(${personaActiva})` : '';
+            document.getElementById('balance-titulo').textContent = personaActiva ? `(${personaActiva})` : 'Total';
+            document.getElementById('grafico-titulo').textContent = sufijo;
+
+            // Actualizar totales principales
+            document.getElementById('balance-total').textContent = `${totales.balance.toFixed(2)} €`;
+            document.getElementById('balance-total').className = `amount ${totales.balance >= 0 ? 'text-green' : 'text-red'}`;
+            
+            document.getElementById('ingresos-total').textContent = `${totales.ingresos.toFixed(2)} €`;
+            document.getElementById('gastos-total').textContent = `${totales.gastos.toFixed(2)} €`;
+
+            // Mostrar/ocultar detalles por persona
+            const mostrarDetalle = !personaActiva;
+            document.getElementById('balance-detalle').style.display = mostrarDetalle ? 'block' : 'none';
+            document.getElementById('ingresos-detalle').style.display = mostrarDetalle ? 'block' : 'none';
+            document.getElementById('gastos-detalle').style.display = mostrarDetalle ? 'block' : 'none';
+
+            if (mostrarDetalle) {
+                document.getElementById('balance-yuyu').textContent = `${totalesYuyu.balance.toFixed(2)} €`;
+                document.getElementById('balance-yuyu').className = totalesYuyu.balance >= 0 ? 'text-green' : 'text-red';
+                document.getElementById('balance-angie').textContent = `${totalesAngie.balance.toFixed(2)} €`;
+                document.getElementById('balance-angie').className = totalesAngie.balance >= 0 ? 'text-green' : 'text-red';
+                
+                document.getElementById('ingresos-yuyu').textContent = `${totalesYuyu.ingresos.toFixed(2)} €`;
+                document.getElementById('ingresos-angie').textContent = `${totalesAngie.ingresos.toFixed(2)} €`;
+                
+                document.getElementById('gastos-yuyu').textContent = `${totalesYuyu.gastos.toFixed(2)} €`;
+                document.getElementById('gastos-angie').textContent = `${totalesAngie.gastos.toFixed(2)} €`;
+            }
+
+            // Actualizar tabla
+            actualizarTabla();
+            
+            // Dibujar gráfico
+            dibujarGrafico();
+        }
+
+        // Actualizar tabla
+        function actualizarTabla() {
+            const tbody = document.getElementById('tabla-body');
+            const transaccionesFiltradas = obtenerTransaccionesFiltradas();
+
+            if (transaccionesFiltradas.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty-state">
+                            No hay transacciones para mostrar. ¡Añade una nueva!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = transaccionesFiltradas.map(t => `
+                <tr>
+                    <td>${t.mes}</td>
+                    <td>${t.concepto}</td>
+                    <td>
+                        <span class="badge ${t.persona === 'Yuyu' ? 'badge-blue' : 'badge-purple'}">
+                            ${t.persona}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge ${t.tipo === 'ingreso' ? 'badge-green' : 'badge-red'}">
+                            ${t.tipo === 'ingreso' ? 'Ingreso' : 'Gasto'}
+                        </span>
+                    </td>
+                    <td class="text-right ${t.tipo === 'ingreso' ? 'text-green' : 'text-red'}">
+                        ${t.cantidad.toFixed(2)} €
+                    </td>
+                    <td class="text-right">
+                        <button onclick="editarTransaccion(${t.id})" class="btn btn-primary btn-small">
+                            Editar
+                        </button>
+                        <button onclick="eliminarTransaccion(${t.id})" class="btn btn-small" style="background-color: #dc2626; color: white;">
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
